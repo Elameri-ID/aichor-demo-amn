@@ -6,7 +6,7 @@ builder:
   dockerfile: ./dockerfiles/Dockerfile
   context: .
 
-spec:     
+spec:      
   operator: tf
   image: image
   command: "python3 -u main.py --operator=tf --sleep=300 --tb-write=True"
