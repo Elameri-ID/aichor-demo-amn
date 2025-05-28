@@ -28,6 +28,10 @@ if __name__ == "__main__":
     if args.tb_write:
         dummy_tb_write()
 
+    print("## Repository contents:")
+    for item in os.listdir('.'):
+        print(item)
+
 
     if os.path.exists('.git'):
         print("### Git repository detected")
