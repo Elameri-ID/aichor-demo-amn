@@ -1,4 +1,5 @@
 import argparse
+import subprocess
 import time
 import os
 
@@ -31,6 +32,14 @@ if __name__ == "__main__":
     print("## Repository contents:")
     for item in os.listdir('.'):
         print(item)
+
+    # Next: subprocess run ls -a
+    print("### Full directory listing:")
+    subprocess.run(["ls", "-a"], check=True)
+
+
+    print("## Current working directory:", os.getcwd())
+
 
 
     if os.path.exists('.git'):
