@@ -34,12 +34,12 @@ if __name__ == "__main__":
         print(item)
 
     # Next: subprocess run ls -a
-    # print("### Full directory listing:")
-    # subprocess.run(["ls", "-a"], check=True)
+    print("### Full directory listing:")
+    subprocess.run(["ls", "-a"], check=True)
 
 
     print("### content of source directory:")
-    subprocess.run(["ls", "-a", "/source"], check=True)
+    subprocess.run(["ls", "-a", "/"], check=True)
 
 
     print("## Current working directory:", os.getcwd())
