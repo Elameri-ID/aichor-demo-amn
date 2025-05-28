@@ -6,9 +6,9 @@ builder:
   dockerfile: ./dockerfiles/Dockerfile
   context: .
 
-# clone: # optional
-#   includeDotGit: true # optional, defaults to false
-#   # submodules: string # optional, defaults to “false”. Options are “false”, “true”, “recursive”.
+clone: # optional
+  includeDotGit: true # optional: boolean, defaults to false
+  submodules: "true" # optional: string, defaults to “false”. Options are “false”, “true”, “recursive”.
   
 spec:        
   operator: tf
