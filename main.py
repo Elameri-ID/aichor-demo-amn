@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 
     print("### content of source directory:")
-    subprocess.run(["ls", "-a", "/"], check=True)
+    subprocess.run(["ls", "-a", "/app"], check=True)
 
 
     print("## Current working directory:", os.getcwd())
