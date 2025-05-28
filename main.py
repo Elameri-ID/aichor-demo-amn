@@ -1,5 +1,6 @@
 import argparse
 import time
+import os
 
 from src.operators.jax import jaxop
 from src.operators.ray import rayop
@@ -26,6 +27,12 @@ if __name__ == "__main__":
     
     if args.tb_write:
         dummy_tb_write()
+
+
+    if os.path.exists('.git'):
+        print("### Git repository detected")
+    else:
+        print("### No git repository found")
     
     if args.sleep > 0:
         print(f"sleeping for {args.sleep}s before exiting")
