@@ -11,7 +11,7 @@ builder:
 #  submodules: "true" # optional: string, defaults to “false”. Options are “false”, “true”, “recursive”.
    
 spec:        
-  operator: tf
+  operator: tf 
   image: image
   command: "python3 -u main.py --operator=tf --sleep=60 --tb-write=True"
    
