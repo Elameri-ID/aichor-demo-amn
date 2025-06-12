@@ -9,7 +9,7 @@ builder:
 #clone: # optional
 #  includeDotGit: true # optional: boolean, defaults to false
 #  submodules: "true" # optional: string, defaults to “false”. Options are “false”, “true”, “recursive”.
-   
+    
 spec:        
   operator: tf 
   image: image 
