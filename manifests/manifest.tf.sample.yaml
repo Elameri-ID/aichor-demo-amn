@@ -3,13 +3,22 @@ apiVersion: 0.2.2
 
 builder:
   image: image
-  dockerfile: ./dockerfiles/Dockerfile
+  dockerfile: ./build/Dockerfile
   context: .
 
 spec:
   operator: tf
   image: image
-  command: "python3 -u main.py --operator=tf --sleep=300 --tb-write=True"
+  command: "python3 -u main.py --operator=ray --sleep=300 --tb-write=True"
+  #command: >
+  #  bash src/test_pvc.sh
+
+  tensorboard:
+    enabled: true
+  #storage:
+  #  attachExistingPVCs:
+  #    - name: ay-gcp-proje-4f4cac5eb91440b7-ay-test-e189eb7f95f14fcb
+  #      mountPoint: /mnt/ay-gcp-proje-4f4cac5eb91440b7-ay-test-e189eb7f95f14fcb
 
   tensorboard:
     enabled: true
@@ -26,4 +35,3 @@ spec:
             count: 0
             type: gpu
             product: nvidia-tesla-t4
-

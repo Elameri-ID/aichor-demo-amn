@@ -1,56 +1,32 @@
 import argparse
-import subprocess
 import time
-import os
 
 from src.operators.jax import jaxop
 from src.operators.ray import rayop
 from src.operators.tf import tfop
+from src.operators.pytorch import pytorchop
+from src.operators.xgboost import xgboostop
 
-from src.utils.tensorboard import dummy_tb_write
+OPERATOR_TABLE = {
+    "ray": rayop,
+    "kuberay": rayop,
+    "tf": tfop,
+    "jax": jaxop,
+    "pytorch": pytorchop,
+    "xgboost": xgboostop
+}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='AIchor Smoke test on any operator')
-    parser.add_argument("--operator", type=str, default="tf", choices=["ray", "jax", "tf"],help="operator name")
+    parser.add_argument("--operator", type=str, default="tf", choices=OPERATOR_TABLE.keys(),help="operator name")
     parser.add_argument("--sleep", type=int, default="0", help="sleep time in seconds")
     parser.add_argument("--tb-write", type=bool, default=False, help="test write to tensorboard")
 
     args = parser.parse_args()
 
     print(f"using {args.operator} operator")
+    OPERATOR_TABLE[args.operator](args.tb_write)
 
-    if args.operator == "ray":
-        rayop()
-    elif args.operator == "jax":
-        jaxop()
-    elif args.operator == "tf":
-        tfop()
-    
-    if args.tb_write:
-        dummy_tb_write()
-
-    print("## Repository contents:")
-    for item in os.listdir('.'):
-        print(item)
-
-    # Next: subprocess run ls -a
-    print("### Full directory listing:")
-    subprocess.run(["ls", "-a"], check=True)
-
-
-    print("### content of source directory:")
-    subprocess.run(["ls", "-a", "/app"], check=True)
-
-
-    print("## Current working directory:", os.getcwd())
-
-
-
-    if os.path.exists('.git'):
-        print("### Git repository detected")
-    else:
-        print("### No git repository found")
-    
     if args.sleep > 0:
         print(f"sleeping for {args.sleep}s before exiting")
         time.sleep(args.sleep)
