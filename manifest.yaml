@@ -20,7 +20,7 @@ spec:
 
   tensorboard:
     enabled: true
-
+ 
   types:
     Head:
       resources:
