@@ -13,13 +13,13 @@ builder:
 spec:
   operator: kuberay
   image: image
-  command: "python3 -u main.py --operator=kuberay --sleep=300 --tb-write=True"
+  command: "python3 -u main.py --operator=kuberay --sleep=300"
  
   debug:
     jupyter: false
 
   tensorboard:
-    enabled: true
+    enabled: false
  
   types:
     Head:
