@@ -6,7 +6,7 @@ builder:
   dockerfile: ./build/ray.Dockerfile
   context: .
  
-#clone: # optional
+#clone: # optional 
 #  includeDotGit: true # optional: boolean, defaults to false
 #  submodules: "true" # optional: string, defaults to “false”. Options are “false”, “true”, “recursive”.
        
