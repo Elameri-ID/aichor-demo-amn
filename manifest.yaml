@@ -10,7 +10,7 @@ builder:
 #  includeDotGit: true # optional: boolean, defaults to false
 #  submodules: "true" # optional: string, defaults to “false”. Options are “false”, “true”, “recursive”.
            
-spec:
+spec:  
   operator: kuberay
   image: image
   command: "python3 -u main.py --operator=kuberay --sleep=300"
