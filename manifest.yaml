@@ -3,36 +3,32 @@ apiVersion: 0.2.2
 
 builder:
   image: image
-  dockerfile: ./dockerfiles/ray.Dockerfile
+  dockerfile: ./dockerfiles/Dockerfile
   context: .
-
+  
 spec:
-  operator: ray
+  operator: jobset   
   image: image
-  command: "python3 -u main.py --operator=ray --sleep=300 --tb-write=True"
-
-  debug:
-    jupyter: false
+  command: "python3 -u main.py --operator=jobset --sleep=300 --tb-write=True"
 
   tensorboard:
     enabled: true
-
+  
   types:
-    Head:
-      resources:
-        cpus: 1
-        ramRatio: 2
-
-    Job:
+    master:
+      count: 1
       resources:
         cpus: 1
         ramRatio: 2
         shmSizeGB: 0
+        accelerators: # optional
+          gpu:
+            count: 0
+            type: gpu
+            product: nvidia-tesla-t4
 
-    Workers:
-      - name: cpu-workers
-        count: 1
-        resources:
-          cpus: 1
-          ramRatio: 2
-          shmSizeGB: 0
+    worker-1:
+      count: 1
+      resources:
+        cpus: 2
+        ramRatio: 2
