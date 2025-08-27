@@ -27,8 +27,8 @@ spec:
             type: gpu
             product: nvidia-tesla-t4 
 
-    worker-1:
-      count: 1
-      resources:
-        cpus: 1
-        ramRatio: 2
+    # worker-1:
+    #   count: 1
+    #   resources:
+    #     cpus: 1
+    #     ramRatio: 2
