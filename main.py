@@ -4,7 +4,7 @@ import os
 import time
 import argparse
 import tensorflow as tf
-import tensorflow_io as tfio
+# import tensorflow_io as tfio
 # from tensorboard.main import run_main
 
 
@@ -50,10 +50,8 @@ def aichor_write_tensorboard():
 
 def main():
     parser = argparse.ArgumentParser(description="AIchor smoke test on any operator")
-    parser.add_argument("--operator", choices=["ray", "jax", "tf"], default="tf")
     parser.add_argument("--sleep", type=int, default=0, help="sleep time in seconds")
-    parser.add_argument("--tb-write", dest="tb_write", action="store_true",
-                        help="write a dummy event to TB (and Azure if az://)")
+    parser.add_argument("--tb-write", dest="tb_write", action="store_true", help="write to TB ")
     args = parser.parse_args()
 
     if args.tb_write:
