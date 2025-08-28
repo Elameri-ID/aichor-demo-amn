@@ -3,9 +3,11 @@
 import os
 import time
 import argparse
-import tensorflow as tf
+# import tensorflow as tf
 # import tensorflow_io as tfio
 # from tensorboard.main import run_main
+
+from tensorboardX import SummaryWriter
 
 
 def aichor_write_tensorboard():
@@ -20,11 +22,11 @@ def aichor_write_tensorboard():
     
     # Tensorboard local log path 
     tb_local_log_path = os.getenv("AICHOR_LOCAL_LOGS_PATH", "/tmp/tb-mirror")
-    tf.io.gfile.makedirs(tb_local_log_path)
+    os.makedirs(tb_local_log_path, exist_ok=True)
 
     writers = [
-        tf.summary.create_file_writer(tb_remote_log_path),
-        tf.summary.create_file_writer(tb_local_log_path),
+        SummaryWriter(tb_remote_log_path),
+        SummaryWriter(tb_local_log_path),
     ]
 
 
@@ -35,9 +37,8 @@ def aichor_write_tensorboard():
     values = [0.31, 0.28, 0.24, 0.20, 0.18]
     for step, val in enumerate(values, start=5):
         for w in writers:
-            with w.as_default():
-                tf.summary.scalar("demo/loss", val, step=step)
-                tf.summary.text("testing text", msg, step=0)
+            w.add_scalar("demo/loss", val, step)
+            w.add_text("testing text", msg, step)
             w.flush()
         time.sleep(1)
 
