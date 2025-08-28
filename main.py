@@ -28,7 +28,7 @@ def aichor_write_tensorboard():
     tb_local_log_path = os.getenv("AICHOR_LOCAL_LOGS_PATH", "/tmp/tb-mirror")
     os.makedirs(tb_local_log_path, exist_ok=True)
 
-    remote_writer = None
+    remote_writer = None 
     local_writer = None
 
     # Initialize writers with basic error handling
