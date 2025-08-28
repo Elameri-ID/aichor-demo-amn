@@ -79,7 +79,7 @@ def main():
 
     aichor_write_tensorboard()
 
-    time.sleep(300)
+    time.sleep(600)
 
 if __name__ == "__main__":
     main()
