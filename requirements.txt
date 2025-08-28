@@ -1,5 +1,14 @@
 # tensorflow==2.17.0
 # tensorflow-io==0.37.1
 # tensorboard==2.17.0
-tensorboardX
-boto3
+
+# tensorboardX
+# boto3
+
+tensorboard==2.16.2
+tensorboard-data-server==0.7.2
+tensorboard-plugin-profile==2.16.0
+tensorflow==2.16.2
+tensorflow-io==0.37.1
+tensorflow-io-gcs-filesystem==0.37.1
+boto3==1.35.67
