@@ -1,72 +1,52 @@
-import os
-import argparse
-import time
 
-def dummy_tb_write():
-    log_path = os.getenv("AICHOR_LOGS_PATH")
-    if not log_path:
-        print('AICHOR_LOGS_PATH env var not found')
+
+import os
+import time
+import argparse
+import tensorflow as tf
+import tensorflow_io as tfio
+# from tensorboard.main import run_main
+
+
+def aichor_write_tensorboard():
+
+    # Tensorboard remote log path from env var
+    tb_remote_log_path = os.getenv("AICHOR_LOGS_PATH")
+    if not tb_remote_log_path:
+        print('### AICHOR_LOGS_PATH env var not found')
         return
+    else:
+        print(f"### AICHOR_LOGS_PATH={tb_remote_log_path}")
+    
+    # Tensorboard local log path 
+    tb_local_log_path = os.getenv("AICHOR_LOCAL_LOGS_PATH", "/tmp/tb-mirror")
+    tf.io.gfile.makedirs(tb_local_log_path)
+
+    writers = [
+        tf.summary.create_file_writer(tb_remote_log_path),
+        tf.summary.create_file_writer(tb_local_log_path),
+    ]
+
 
     msg = os.getenv("VCS_COMMIT_MESSAGE") or "VCS_COMMIT_MESSAGE env var not found"
-    mirror_dir = os.getenv("AICHOR_TB_LOCAL_MIRROR", "/tmp/tb-dummy")
 
-    def write_local(dirpath: str, text: str):
-        try:
-            from tensorboardX import SummaryWriter
-            os.makedirs(dirpath, exist_ok=True)
-            w = SummaryWriter(dirpath)
-            w.add_text("testing text", text, 0)
-            w.flush(); w.close()
-            print(f"local mirror (tensorboardX): {dirpath}")
-        except Exception as e1:
-            try:
-                import tensorflow as tf
-                os.makedirs(dirpath, exist_ok=True)
-                w = tf.summary.create_file_writer(dirpath)
-                with w.as_default():
-                    tf.summary.text("testing text", text, step=0)
-                w.flush(); w.close()
-                print(f"local mirror (TF): {dirpath}")
-            except Exception as e2:
-                print(f"local mirror failed: {e1} ; {e2}")
+    # logdir="az://prjtb26aoute964674e723b4/prj-tb26aout-e964674e723b4bb7-outputs/tb-write-test"
 
-    # Azure path → write to Blob via TF+TF-IO, then write a local mirror
-    if log_path.startswith(("az://", "azfs://")):
-        try:
-            import tensorflow as tf  # TF event writer
-            import tensorflow_io as tfio  # registers az:// filesystem
-            azure_dir = log_path.rstrip("/")
-            try:
-                tf.io.gfile.makedirs(azure_dir)  # safe no-op if exists
-            except Exception:
-                pass
-            w = tf.summary.create_file_writer(azure_dir)
+    values = [0.31, 0.28, 0.24, 0.20, 0.18]
+    for step, val in enumerate(values, start=5):
+        for w in writers:
             with w.as_default():
+                tf.summary.scalar("demo/loss", val, step=step)
                 tf.summary.text("testing text", msg, step=0)
-            w.flush(); w.close()
-            print(f"wrote TF event to Azure: {azure_dir}")
-        except Exception as e:
-            print(f"Azure write failed ({e}) — still writing local mirror.")
-        write_local(mirror_dir, msg)
-        return
+            w.flush()
+        time.sleep(1)
 
-    # Non-Azure path → original behavior
-    try:
-        from tensorboardX import SummaryWriter
-        os.makedirs(log_path, exist_ok=True)
-        w = SummaryWriter(log_path)
-        w.add_text("testing text", msg, 0)
-        w.flush(); w.close()
-        print(f"wrote TF event to: {log_path}")
-    except Exception as e:
-        print(f"tensorboardX not installed: {e}")
+    print("Appended points to", tb_remote_log_path, "and", tb_local_log_path)
 
-def print_tf_env():
-    tf_config_raw = os.getenv("TF_CONFIG")
-    print("tf_config:", tf_config_raw)
-    if tf_config_raw is None:
-        print("tf_config is None because worker count = 1")
+
+
+
+
 
 def main():
     parser = argparse.ArgumentParser(description="AIchor smoke test on any operator")
@@ -77,7 +57,7 @@ def main():
     args = parser.parse_args()
 
     if args.tb_write:
-        dummy_tb_write()
+        aichor_write_tensorboard()
 
     if args.sleep > 0:
         print(f"sleeping for {args.sleep}s before exiting")
