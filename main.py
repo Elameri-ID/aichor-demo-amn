@@ -23,7 +23,7 @@ def aichor_write_tensorboard():
         
         if tb_remote_log_path.startswith("s3://"):
 
-            tb_remote_log_path = os.getenv("AZURE_STORAGE_ENDPOINT") + tb_remote_log_path[5:]  # Remove "s3://"
+            tb_remote_log_path = os.getenv("AZURE_STORAGE_ENDPOINT") + "/" + tb_remote_log_path[5:]  # Remove "s3://"
             print(f"### Azure TB log path: {tb_remote_log_path}")  
 
 
