@@ -49,17 +49,10 @@ def aichor_write_tensorboard():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="AIchor smoke test on any operator")
-    parser.add_argument("--sleep", type=int, default=0, help="sleep time in seconds")
-    parser.add_argument("--tb-write", dest="tb_write", action="store_true", help="write to TB ")
-    args = parser.parse_args()
 
-    if args.tb_write:
-        aichor_write_tensorboard()
+    aichor_write_tensorboard()
 
-    if args.sleep > 0:
-        print(f"sleeping for {args.sleep}s before exiting")
-        time.sleep(args.sleep)
+    time.sleep(300)
 
 if __name__ == "__main__":
     main()
