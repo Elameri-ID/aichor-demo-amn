@@ -14,24 +14,26 @@ import tensorflow_io as tfio
 def aichor_write_tensorboard():
 
     # TensorBoard remote log path from env var (optional)
-    tb_remote_log_path = os.getenv("AICHOR_LOGS_PATH")
-    if not tb_remote_log_path:
-        print("### AICHOR_LOGS_PATH not set — will write locally only")
-    else:
-        print(f"### AICHOR_LOGS_PATH={tb_remote_log_path}")
+    tb_remote_log_path = os.getenv("AICHOR_TENSORBOARD_PATH")
+    print(f"### AICHOR_LOGS_PATH={tb_remote_log_path}")
+    
+    # if not tb_remote_log_path:
+    #     print("### AICHOR_LOGS_PATH not set — will write locally only")
+    # else:
+    #     print(f"### AICHOR_LOGS_PATH={tb_remote_log_path}")
 
     # If AICHOR_LOGS_PATH starts with s3 and Azure endpoint is provided, convert to Azure path
-    if tb_remote_log_path and os.getenv("AZURE_STORAGE_ENDPOINT"):
-        if tb_remote_log_path.startswith("s3://"):
-            tb_remote_log_path = os.getenv("AZURE_STORAGE_ENDPOINT") + "/" + tb_remote_log_path[5:]  # Remove "s3://"
-            print(f"### Azure TB log path: {tb_remote_log_path}")
+    # if tb_remote_log_path and os.getenv("AZURE_STORAGE_ENDPOINT"):
+    #     if tb_remote_log_path.startswith("s3://"):
+    #         tb_remote_log_path = os.getenv("AZURE_STORAGE_ENDPOINT") + "/" + tb_remote_log_path[5:]  # Remove "s3://"
+    #         print(f"### Azure TB log path: {tb_remote_log_path}")
 
     # TensorBoard local log path (always enabled)
-    tb_local_log_path = os.getenv("AICHOR_LOCAL_LOGS_PATH", "/tmp/tb-mirror")
-    os.makedirs(tb_local_log_path, exist_ok=True)
+    # tb_local_log_path = os.getenv("AICHOR_LOCAL_LOGS_PATH", "/tmp/tb-mirror")
+    # os.makedirs(tb_local_log_path, exist_ok=True)
 
     remote_writer = tf.summary.create_file_writer(tb_remote_log_path) 
-    local_writer = tf.summary.create_file_writer(tb_local_log_path) 
+    # local_writer = tf.summary.create_file_writer(tb_local_log_path) 
 
     with remote_writer.as_default():
         for step,val in enumerate([0.31,0.28,0.24,0.20,0.18], start=5):
@@ -39,11 +41,11 @@ def aichor_write_tensorboard():
             remote_writer.flush(); time.sleep(1)
         print("Appended points to", tb_remote_log_path)
     
-    with local_writer.as_default():
-        for step,val in enumerate([0.31,0.28,0.24,0.20,0.18], start=5):
-            tf.summary.scalar("demo/loss", val, step=step)
-            local_writer.flush(); time.sleep(1)
-        print("Appended points to", tb_local_log_path)
+    # with local_writer.as_default():
+    #     for step,val in enumerate([0.31,0.28,0.24,0.20,0.18], start=5):
+    #         tf.summary.scalar("demo/loss", val, step=step)
+    #         local_writer.flush(); time.sleep(1)
+    #     print("Appended points to", tb_local_log_path)
 
 
 
