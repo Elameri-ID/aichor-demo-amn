@@ -13,6 +13,14 @@ spec:
 
   tensorboard:
     enabled: true
+    usePVC:
+      enabled: true
+      name: "azpvc-1"
+  
+  storage:
+    attachExistingPVCs:
+      - name: "azpvc-1"
+        mountPoint: "/mnt/azpvcone"
   
   types:
     master:
