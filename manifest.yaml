@@ -15,11 +15,11 @@ spec:
     enabled: true
     usePVC:
       enabled: true
-      name: "azpvc-1"
+      name: "az-prjtb11-5de4098cb8b3459d-azpvc-1-d09842db6f6f4cc7"
   
   storage:
     attachExistingPVCs:
-      - name: "azpvc-1"
+      - name: "az-prjtb11-5de4098cb8b3459d-azpvc-1-d09842db6f6f4cc7"
         mountPoint: "/mnt/azpvcone"
   
   types:
