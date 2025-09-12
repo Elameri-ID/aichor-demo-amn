@@ -25,7 +25,7 @@ def aichor_write_tensorboard():
         for step,val in enumerate([0.31,0.28,0.24,0.20,0.18], start=5):
             tf.summary.scalar("demo/loss", val, step=step)
             remote_writer.flush(); time.sleep(1)
-        print("Appended points to", tb_remote_log_path)
+        print("Appended points to", tb_remote_log_path) 
     
 
 def main():
