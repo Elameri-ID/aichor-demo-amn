@@ -55,3 +55,24 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+"""
+
+kubectl exec -it experiment-eb916239-46a5-master-0-0-d4zsq -- sh -lc '
+python - <<PY
+import os, time, threading, posixpath
+import tensorflow as tf, tensorflow_io as tfio
+from tensorboard.main import run_main
+DST = "/tmp/tb-mirror"
+import sys
+sys.argv = ["tensorboard","--logdir", DST,"--port","16013","--bind_all","--reload_interval","2","--load_fast","false"]
+run_main()
+PY'
+
+
+
+kubectl -n prj-tb26aout-e964674e723b4bb7 port-forward pod/experiment-eb916239-46a5-master-0-0-d4zsq 16013:16013
+
+"""
