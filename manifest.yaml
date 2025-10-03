@@ -8,7 +8,7 @@ builder:
   
 spec:
   operator: jobset   
-  image: image
+  image: image 
   command: "python3 -u main.py" 
 
   tensorboard:
