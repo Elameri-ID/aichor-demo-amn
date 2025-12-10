@@ -1,6 +1,6 @@
-FROM python:3.8-slim
+FROM python:3.12-slim
 
-RUN pip install tensorboardX boto3
+RUN pip install tensorboardX boto3 tensorflow tensorflow_io
 
 WORKDIR /app
 COPY ./src ./src
