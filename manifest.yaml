@@ -7,7 +7,7 @@ builder:
   context: .
   
 spec:
-  operator: jobset    
+  operator: jobset     
   image: image 
   command: "python3 -u main.py" 
  
