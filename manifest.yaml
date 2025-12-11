@@ -11,7 +11,7 @@ spec:
   image: image 
   command: "python3 -u main.py" 
  
-  tensorboard:
+  tensorboard: 
     enabled: true
   #   usePVC:
   #     enabled: true
