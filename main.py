@@ -25,7 +25,7 @@ def main():
 
     print_test()
 
-    time.sleep(600)
+    time.sleep(1800)
 
 if __name__ == "__main__":
     main()
