@@ -6,7 +6,7 @@ builder:
   dockerfile: ./Dockerfile  
   context: .
    
-spec:
+spec: 
   operator: jobset      
   image: image
   command: "python3 -u main.py"     
