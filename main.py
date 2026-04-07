@@ -6,7 +6,17 @@ import time
 from tensorboardX import SummaryWriter
 
 
+def print_env_vars():
+    keywords = ["S3", "AWS", "AICHOR", "MINIO", "ENDPOINT", "TENSOR", "LOG"]
+    for k, v in sorted(os.environ.items()):
+        if any(x in k.upper() for x in keywords):
+            print(f"  {k}={v}")
+
+
 def aichor_write_tensorboard():
+    print("### Relevant env vars:")
+    print_env_vars()
+
     log_path = os.getenv("AICHOR_LOGS_PATH")
     print(f"### AICHOR_LOGS_PATH={log_path}")
 
