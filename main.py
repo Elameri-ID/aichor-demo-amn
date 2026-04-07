@@ -2,32 +2,41 @@
 
 import os
 import time
+import glob as globmod
+from urllib.parse import urlparse
 
+import boto3
 from tensorboardX import SummaryWriter
 
+LOCAL_TB_DIR = "/tmp/tensorboard_logs"
 
-def print_env_vars():
-    keywords = ["S3", "AWS", "AICHOR", "MINIO", "ENDPOINT", "TENSOR", "LOG"]
-    for k, v in sorted(os.environ.items()):
-        if any(x in k.upper() for x in keywords):
-            print(f"  {k}={v}")
+
+def upload_dir_to_s3(local_dir, s3_url):
+    parsed = urlparse(s3_url)
+    bucket = parsed.netloc
+    prefix = parsed.path.lstrip("/")
+    endpoint_url = os.getenv("AWS_ENDPOINT_URL") or os.getenv("CEPH_AWS_ENDPOINT_URL")
+    s3 = boto3.client("s3", endpoint_url=endpoint_url)
+    for filepath in globmod.glob(os.path.join(local_dir, "**", "*"), recursive=True):
+        if os.path.isfile(filepath):
+            key = prefix + os.path.relpath(filepath, local_dir)
+            s3.upload_file(filepath, bucket, key)
+            print(f"Uploaded {filepath} -> s3://{bucket}/{key}")
 
 
 def aichor_write_tensorboard():
-    print("### Relevant env vars:")
-    print_env_vars()
+    tb_remote_path = os.getenv("AICHOR_TENSORBOARD_PATH") or os.getenv("AICHOR_LOGS_PATH")
+    print(f"### Remote path: {tb_remote_path}")
 
-    log_path = os.getenv("AICHOR_LOGS_PATH")
-    print(f"### AICHOR_LOGS_PATH={log_path}")
-
-    writer = SummaryWriter(log_path)
+    writer = SummaryWriter(LOCAL_TB_DIR)
     for step, val in enumerate([0.31, 0.28, 0.24, 0.20, 0.18], start=5):
         writer.add_scalar("demo/loss", val, step)
         time.sleep(1)
     writer.flush()
     writer.close()
-    print("Appended points to", log_path)
-    print("### TEST 123")
+
+    upload_dir_to_s3(LOCAL_TB_DIR, tb_remote_path)
+    print("### TensorBoard logs uploaded to", tb_remote_path)
 
 
 def print_test():
