@@ -13,8 +13,8 @@ def aichor_write_tensorboard():
     writer = SummaryWriter(log_path)
     for step, val in enumerate([0.31, 0.28, 0.24, 0.20, 0.18], start=5):
         writer.add_scalar("demo/loss", val, step)
-        writer.flush()
         time.sleep(1)
+    writer.flush()
     writer.close()
     print("Appended points to", log_path)
     print("### TEST 123")
