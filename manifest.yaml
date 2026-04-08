@@ -1,6 +1,6 @@
 kind: AIchorManifest
 apiVersion: 0.2.3  
-    
+     
 builder: 
   image: image     
   dockerfile: ./Dockerfile  
