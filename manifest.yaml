@@ -4,7 +4,7 @@ apiVersion: 0.2.3
 builder:   
   image: image     
   dockerfile: ./Dockerfile     
-  context: .
+  context: . 
       
 spec:   
   operator: jobset        
