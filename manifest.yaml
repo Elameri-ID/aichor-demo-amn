@@ -3,7 +3,7 @@ apiVersion: 0.2.3
      
 builder:   
   image: image     
-  dockerfile: ./Dockerfile     
+  dockerfile: ./Dockerfile      
   context: .  
       
 spec:   
