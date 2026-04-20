@@ -49,7 +49,7 @@ def print_test():
     
 
 def main():
-    aichor_write_tensorboard()
+    # aichor_write_tensorboard()
 
     print_test()
 
