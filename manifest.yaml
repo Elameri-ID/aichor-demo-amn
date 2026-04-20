@@ -21,12 +21,12 @@ spec:
     Head:
       resources:
         cpus: 1
-        ramRatio: 2
+        ramRatio: 1
 
     Workers:
       - name: cpu-workers
-        count: 1
+        count: 0
         resources:
           cpus: 1
-          ramRatio: 2
+          ramRatio: 1
           shmSizeGB: 0
