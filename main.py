@@ -9,7 +9,7 @@ def main():
     print(f"AICHOR_LOGS_PATH={tb_path}", flush=True)
 
     if tb_path == "NOT_SET":
-        print("ERROR: AICHOR_LOGS_PATH not set", flush=True)
+        print("ERROR: AICHOR_LOGS_PATH not set", flush=True) 
         sys.exit(1)
 
     # Wait for GCS Fuse mount to be ready
