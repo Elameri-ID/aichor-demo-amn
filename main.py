@@ -2,6 +2,22 @@ import os
 import sys
 import time
 
+
+def write_large_file_local(path, target_bytes):
+    chunk = b"x" * (256 * 1024 ** 2)
+    print(f"Writing {target_bytes / 1024**3:.1f} GiB to {path} ...", flush=True)
+    os.makedirs(path, exist_ok=True)
+    dest = os.path.join(path, "large_test_file.bin")
+    written = 0
+    with open(dest, "wb") as f:
+        while written < target_bytes:
+            n = min(len(chunk), target_bytes - written)
+            f.write(chunk[:n])
+            written += n
+            print(f"  {written / 1024**3:.2f} GiB written", flush=True)
+    print(f"Done. {os.path.getsize(dest) / 1024**3:.2f} GiB at {dest}", flush=True)
+
+
 def main():
     print("=== START ===", flush=True)
 
@@ -9,8 +25,10 @@ def main():
     print(f"AICHOR_LOGS_PATH={tb_path}", flush=True)
 
     if tb_path == "NOT_SET":
-        print("ERROR: AICHOR_LOGS_PATH not set", flush=True) 
+        print("ERROR: AICHOR_LOGS_PATH not set", flush=True)
         sys.exit(1)
+
+    target_bytes = 2 * 1024 ** 3
 
     # Wait for GCS Fuse mount to be ready
     mount = "/mnt/tensorboard"
@@ -23,17 +41,7 @@ def main():
             print(f"Waiting for mount ({i}s): {e}", flush=True)
             time.sleep(1)
 
-    # Write a plain file first to confirm the mount works
-    test_file = os.path.join(tb_path, "test.txt")
-    try:
-        os.makedirs(tb_path, exist_ok=True)
-        print(f"makedirs OK: {tb_path}", flush=True)
-        with open(test_file, "w") as f:
-            f.write("hello\n")
-        print(f"plain file write OK: {test_file}", flush=True)
-    except Exception as e:
-        print(f"ERROR writing plain file: {e}", flush=True)
-        sys.exit(1)
+    write_large_file_local(tb_path, target_bytes)
 
     # Write tensorboard events
     try:
@@ -50,6 +58,7 @@ def main():
 
     print("=== sleeping 1800s ===", flush=True)
     time.sleep(1800)
+
 
 if __name__ == "__main__":
     main()
