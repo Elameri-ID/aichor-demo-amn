@@ -10,12 +10,12 @@ spec:
   operator: jobset        
   image: image
   command: "python3 -u main.py"      
-      
+
   tensorboard:      
-    enabled: true 
+    enabled: true
+    outputPath: june9-outputs
     customStorage:
       enabled: true
-      folderPath: smoke-test-mai
 
   #   usePVC:  
   #     enabled: true
