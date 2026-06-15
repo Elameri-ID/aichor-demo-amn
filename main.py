@@ -56,8 +56,8 @@ def main():
     except Exception as e:
         print(f"ERROR writing tensorboard: {e}", flush=True)
 
-    print("=== sleeping 1800s ===", flush=True)
-    time.sleep(1800)
+    print("=== sleeping 600s ===", flush=True)
+    time.sleep(600)
 
 
 if __name__ == "__main__":
